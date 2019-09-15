@@ -11,7 +11,7 @@
 import NavBar from '../components/NavBar'
 
 export default {
-  name: 'Main Page',
+  name: 'MainPage',
   components: {
     NavBar
   }
