@@ -11,11 +11,22 @@
     <v-btn icon>
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
+    <v-btn color="red" @click="logout">
+      Log out
+    </v-btn>
   </v-app-bar>
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'NavBar',
+  methods: {
+    logout () {
+      this.$store.dispatch('logOut')
+      this.$router.push('/login')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

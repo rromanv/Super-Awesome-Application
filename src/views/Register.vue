@@ -72,6 +72,7 @@ export default {
   },
   methods: {
     signUp () {
+      this.$store.dispatch('signUp')
       this.$router.push({ path: '/' })
     }
   }

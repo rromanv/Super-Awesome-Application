@@ -57,6 +57,7 @@ export default {
   },
   methods: {
     login () {
+      this.$store.dispatch('logIn')
       this.$router.push({ path: '/' })
     }
   }
