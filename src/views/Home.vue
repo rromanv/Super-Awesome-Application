@@ -1,9 +1,19 @@
 <template>
-  <h1>Hello There</h1>
+  <v-app>
+    <NavBar />
+    <v-content class="blue-grey lighten-3">
+      <router-view />
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-export default {
+import NavBar from '../components/NavBar'
 
+export default {
+  name: 'Main Page',
+  components: {
+    NavBar
+  }
 }
 </script>
