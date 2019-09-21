@@ -10,7 +10,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLoggedIn: false,
-    user: null
+    user: null,
+    error: false,
+    errorMsg: ''
   },
   getters: {
     getIsLoggedIn (state) {
@@ -18,6 +20,9 @@ export default new Vuex.Store({
     },
     getUser (state) {
       return state.user
+    },
+    getError (state) {
+      return { error: state.error, msg: state.errorMsg }
     }
   },
   mutations: {
@@ -30,19 +35,58 @@ export default new Vuex.Store({
     },
     setUser (state, payload) {
       state.user = payload
+    },
+    setError (state, payload) {
+      state.error = payload.error
+      state.errorMsg = payload.errorMsg
     }
   },
   actions: {
-    logIn (context, payload) {
-      context.commit('setUser', payload)
-      context.commit('logginIn')
+    async logIn (context, payload) {
+      context.dispatch('settingError', {
+        error: false,
+        errorMsg: ''
+      })
+      try {
+        if (payload.email && payload.password) {
+          const user = await login(payload.email, payload.password)
+          if (user) {
+            context.commit('setUser', user)
+            context.commit('logginIn')
+          } else {
+            context.dispatch('settingError', {
+              error: true,
+              errorMsg: 'Wrong Credentials'
+            })
+          }
+        } else {
+          context.commit('setUser', payload)
+          context.commit('logginIn')
+        }
+      } catch (error) {
+        console.log(error)
+      }
     },
     logOut (context) {
       context.commit('logginOut')
     },
     async signUp (context, payload) {
+      context.dispatch('settingError', {
+        error: false,
+        errorMsg: ''
+      })
       const newUser = await register(payload)
-      context.dispatch('logIn', newUser)
+      if (newUser) {
+        context.dispatch('logIn', newUser)
+      } else {
+        context.dispatch('settingError', {
+          error: true,
+          errorMsg: 'Error with registration'
+        })
+      }
+    },
+    settingError (context, payload) {
+      context.commit('setError', payload)
     }
   }
 })
@@ -55,7 +99,7 @@ const register = async data => {
         try {
           await signUp.user.updateProfile({
             displayName: data.name,
-            photoURL: `${router.options.base}user.png`
+            photoURL: `${router.options.base || '/'}user.png`
           })
           return signUp.user
         } catch (error) {
@@ -67,5 +111,14 @@ const register = async data => {
     }
   } else {
     console.log('Cannot read object data')
+  }
+}
+
+const login = async (email, password) => {
+  try {
+    const signIn = await firebase.auth().signInWithEmailAndPassword(email, password)
+    return signIn.user ? signIn.user : null
+  } catch (error) {
+
   }
 }

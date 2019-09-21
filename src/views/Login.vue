@@ -32,6 +32,9 @@
                   </v-tooltip>
                 </v-card-actions>
               </v-form>
+              <v-alert type="error" v-if="getError.error">
+                {{getError.msg}}
+              </v-alert>
             </v-card>
           </v-col>
         </v-row>
@@ -57,8 +60,13 @@ export default {
   },
   methods: {
     login () {
-      this.$store.dispatch('logIn')
+      this.$store.dispatch('logIn', { email: this.email, password: this.password })
       this.$router.push({ path: '/' })
+    }
+  },
+  computed: {
+    getError () {
+      return this.$store.getters.getError
     }
   }
 }

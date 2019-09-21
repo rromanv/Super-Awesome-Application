@@ -40,6 +40,9 @@
                   </v-tooltip>
                 </v-card-actions>
               </v-form>
+              <v-alert type="error" v-if="getError.error">
+                {{getError.msg}}
+              </v-alert>
             </v-card>
           </v-col>
         </v-row>
@@ -78,6 +81,11 @@ export default {
         name: this.name
       })
       this.$router.push({ path: '/' })
+    }
+  },
+  computed: {
+    getError () {
+      return this.$store.getters.getError
     }
   }
 }
