@@ -24,7 +24,7 @@
 
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
-                      <v-btn color="#DB4437" fab small class="white--text" v-on="on">
+                      <v-btn @click="loginUpWithGoogle" color="#DB4437" fab small class="white--text" v-on="on">
                         <v-icon>mdi-google</v-icon>
                       </v-btn>
                     </template>
@@ -62,6 +62,9 @@ export default {
     login () {
       this.$store.dispatch('logIn', { email: this.email, password: this.password })
       this.$router.push({ path: '/' })
+    },
+    loginUpWithGoogle () {
+      this.$store.dispatch('signUpWithGoogle')
     }
   },
   computed: {

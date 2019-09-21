@@ -32,6 +32,7 @@ export default new Vuex.Store({
     },
     logginOut (state) {
       state.isLoggedIn = false
+      state.user = null
     },
     setUser (state, payload) {
       state.user = payload
@@ -85,6 +86,17 @@ export default new Vuex.Store({
         })
       }
     },
+    async signUpWithGoogle (context) {
+      const newUser = await registerWithGoogle()
+      if (newUser) {
+        context.dispatch('logIn', newUser)
+      } else {
+        context.dispatch('settingError', {
+          error: true,
+          errorMsg: 'Error with Google Registration'
+        })
+      }
+    },
     settingError (context, payload) {
       context.commit('setError', payload)
     }
@@ -121,4 +133,12 @@ const login = async (email, password) => {
   } catch (error) {
 
   }
+}
+
+const registerWithGoogle = async () => {
+  const provider = new firebase.auth.GoogleAuthProvider()
+  provider.addScope('profile')
+  provider.addScope('email')
+  const signUp = await firebase.auth().signInWithPopup(provider)
+  return signUp.user ? signUp.user : null
 }
