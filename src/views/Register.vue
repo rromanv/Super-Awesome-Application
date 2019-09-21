@@ -72,7 +72,11 @@ export default {
   },
   methods: {
     signUp () {
-      this.$store.dispatch('signUp')
+      this.$store.dispatch('signUp', {
+        email: this.email,
+        password: this.password,
+        name: this.name
+      })
       this.$router.push({ path: '/' })
     }
   }
