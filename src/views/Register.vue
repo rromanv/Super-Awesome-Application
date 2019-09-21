@@ -36,7 +36,7 @@
                         <v-icon>mdi-google</v-icon>
                       </v-btn>
                     </template>
-                    <span>Sigh Up with Google</span>
+                    <span>Sign Up with Google</span>
                   </v-tooltip>
                 </v-card-actions>
               </v-form>
