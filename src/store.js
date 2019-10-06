@@ -111,7 +111,7 @@ const register = async data => {
         try {
           await signUp.user.updateProfile({
             displayName: data.name,
-            photoURL: `${router.options.base || '/'}user.png`
+            photoURL: `${process.env.VUE_APP_BASE_URL || '/'}user.png`
           })
           return signUp.user
         } catch (error) {

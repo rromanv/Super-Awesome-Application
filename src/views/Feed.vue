@@ -1,17 +1,25 @@
 <template>
-<div class="pt-4 pl-4">
-  <h1 class="display-2">Welcome {{user.displayName}}, this is the main page</h1>
-  <h3 class="headline">{{user.email}}</h3>
-</div>
+<v-container>
+  <v-row>
+    <v-col cols="2">
+      <UserInfo />
+    </v-col>
+    <v-col>
+      <Publish />
+    </v-col>
+  </v-row>
+</v-container>
 </template>
 
 <script>
+import UserInfo from '@/components/UserInfo'
+import Publish from '@/components/Publish'
+
 export default {
   name: 'Feed',
-  computed: {
-    user () {
-      return this.$store.getters.getUser
-    }
+  components: {
+    UserInfo,
+    Publish
   }
 }
 </script>
