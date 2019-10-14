@@ -1,5 +1,5 @@
 <template>
-  <v-sheet color="transparent">
+  <v-sheet color="transparent" >
     <v-container>
       <v-row>
         <v-col class="text-center">

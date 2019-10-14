@@ -4,8 +4,11 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import firebase from 'firebase/app'
+import Sticky from 'vue-sticky-directive'
 
 Vue.config.productionTip = false
+
+Vue.use(Sticky)
 
 new Vue({
   router,
