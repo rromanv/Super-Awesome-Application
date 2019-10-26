@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Feed from './views/Feed.vue'
+import Profile from './views/Profile.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 import store from './store'
@@ -19,6 +20,11 @@ const router = new Router({
           path: '',
           name: 'Feed',
           component: Feed
+        },
+        {
+          path: '/profile',
+          name: 'Profile',
+          component: Profile
         }
       ]
     },

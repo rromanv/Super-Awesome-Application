@@ -8,7 +8,7 @@
           </v-avatar>
           <p class="title mt-1 mb-0">{{user.displayName}}</p>
           <p class="subtitle">{{user.email}}</p>
-          <v-btn class="blue lighten-2" dark><v-icon left>mdi-account</v-icon>My Profile</v-btn>
+          <v-btn class="blue lighten-2" to="/profile" dark><v-icon left>mdi-account</v-icon>My Profile</v-btn>
         </v-col>
       </v-row>
     </v-container>
