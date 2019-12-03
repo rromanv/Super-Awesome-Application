@@ -22,7 +22,7 @@
       </v-card>
     </v-expansion-panel-header>
     <v-expansion-panel-content>
-      <PostComments :comments="comments" :postId="post.id" @commentAdded="fetchComments"/>
+      <PostComments :comments="comments" :postId="post.id" @commentAdded="fetchComments" @likeAdded="fetchLikes" @dislikeAdded="fetchDislikes"/>
     </v-expansion-panel-content>
   </v-expansion-panel>
 </template>
@@ -47,6 +47,8 @@ export default {
   },
   mounted () {
     this.fetchComments()
+    this.fetchLikes()
+    this.fetchDislikes()
   },
   components: {
     PostComments
@@ -60,11 +62,11 @@ export default {
     },
     async fetchLikes () {
       const likesResponse = await this.$axios.get(`api/posts/${this.post.id}/likes`)
-      this.likes = likesResponse.data[0]
+      this.likes = likesResponse.data[0].likes
     },
     async fetchDislikes () {
       const dislikesResponse = await this.$axios.get(`api/posts/${this.post.id}/dislikes`)
-      this.dislikes = dislikesResponse.data[0]
+      this.dislikes = dislikesResponse.data[0].dislikes
     }
   }
 }

@@ -93,7 +93,7 @@ const register = async data => {
         try {
           await signUp.user.updateProfile({
             displayName: data.name,
-            photoURL: `${process.env.VUE_APP_BASE_URL || '/'}user.png`
+            photoURL: process.env.VUE_APP_BASE_PHOTO
           })
           return signUp.user
         } catch (error) {

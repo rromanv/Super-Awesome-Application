@@ -1,12 +1,7 @@
 <template>
   <v-container>
     <v-row align="center" justify="end">
-      <v-btn left small color="red lighten-1" dark>
-        <v-icon>mdi-heart</v-icon>Like
-      </v-btn>
-      <v-btn class="ml-2" left small color="yellow lighten-3">
-        <v-icon>mdi-heart-broken</v-icon>Dislike
-      </v-btn>
+      <PostCommentLike :postId="postId" @likeAdded="$emit('likeAdded')" @dislikeAdded="$emit('dislikeAdded')"/>
       <PostComment v-for="comment in comments" :key="comment.id" :comment="comment" />
       <PostCommentAdd :postId="postId" @commentAdded="$emit('commentAdded')" />
     </v-row>
@@ -16,6 +11,7 @@
 <script>
 import PostComment from './PostComment'
 import PostCommentAdd from './PostCommentAdd'
+import PostCommentLike from './PostCommentLike'
 
 export default {
   name: 'PostComments',
@@ -31,7 +27,8 @@ export default {
   },
   components: {
     PostComment,
-    PostCommentAdd
+    PostCommentAdd,
+    PostCommentLike
   }
 }
 </script>
