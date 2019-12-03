@@ -5,6 +5,7 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import firebase from 'firebase/app'
 import Sticky from 'vue-sticky-directive'
+import './plugins/axios'
 
 Vue.config.productionTip = false
 

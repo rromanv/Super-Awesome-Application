@@ -1,13 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import router from './router'
+import router from '../router'
 
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+const userModule = {
   state: {
     isLoggedIn: false,
     user: null,
@@ -54,6 +50,7 @@ export default new Vuex.Store({
           if (user) {
             context.commit('setUser', user)
             context.commit('logginIn')
+            context.dispatch('fetchPosts')
           } else {
             context.dispatch('settingError', {
               error: true,
@@ -63,6 +60,7 @@ export default new Vuex.Store({
         } else {
           context.commit('setUser', payload)
           context.commit('logginIn')
+          context.dispatch('fetchPosts')
         }
       } catch (error) {
         console.log(error)
@@ -101,7 +99,7 @@ export default new Vuex.Store({
       context.commit('setError', payload)
     }
   }
-})
+}
 
 const register = async data => {
   if (data.email && data.password && data.name) {
@@ -142,3 +140,5 @@ const registerWithGoogle = async () => {
   const signUp = await firebase.auth().signInWithPopup(provider)
   return signUp.user ? signUp.user : null
 }
+
+export default userModule
