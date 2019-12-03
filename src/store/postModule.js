@@ -9,16 +9,12 @@ const postModule = {
   state: { posts: [] },
   getters: { getPosts: state => state.posts.reverse() },
   mutations: {
-    setPosts: (state, posts) => {
-      state.posts = posts
-    }
+    setPosts: (state, posts) => { state.posts = posts }
   },
   actions: {
     fetchPosts: async ({ commit }) => {
       const postsRequest = await axios.get('api/posts')
-      if (postsRequest.data) {
-        commit(types.SET_POSTS, postsRequest.data)
-      }
+      postsRequest.data ? commit(types.SET_POSTS, postsRequest.data) : commit(types.SET_POSTS, {})
     },
     addPost: async ({ dispatch }, post) => {
       await axios.post('api/posts', post)

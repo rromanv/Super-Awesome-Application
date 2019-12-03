@@ -1,10 +1,16 @@
 <template>
-<v-container>
-  <v-row align="center" justify="end">
-    <PostComment v-for="comment in comments" :key="comment.id" :comment="comment"/>
-    <PostCommentAdd />
-  </v-row>
-</v-container>
+  <v-container>
+    <v-row align="center" justify="end">
+      <v-btn left small color="red lighten-1" dark>
+        <v-icon>mdi-heart</v-icon>Like
+      </v-btn>
+      <v-btn class="ml-2" left small color="yellow lighten-3">
+        <v-icon>mdi-heart-broken</v-icon>Dislike
+      </v-btn>
+      <PostComment v-for="comment in comments" :key="comment.id" :comment="comment" />
+      <PostCommentAdd :postId="postId" @commentAdded="$emit('commentAdded')" />
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -13,34 +19,14 @@ import PostCommentAdd from './PostCommentAdd'
 
 export default {
   name: 'PostComments',
-  data () {
-    return {
-      comments: [
-        {
-          id: 0,
-          text: 'first commentfirst commentfirst commentfirst commentfirst commentfirst comment',
-          author: 'John Smith',
-          type: 'normal'
-        },
-        {
-          id: 2,
-          text: 'Second',
-          author: 'John Smith',
-          type: 'normal'
-        },
-        {
-          id: 3,
-          text: 'Other one',
-          author: 'John Smith',
-          type: 'normal'
-        },
-        {
-          id: 4,
-          text: 'The chosen One',
-          author: 'Me',
-          type: 'special'
-        }
-      ]
+  props: {
+    comments: {
+      type: Array,
+      default: () => []
+    },
+    postId: {
+      type: Number,
+      default: 0
     }
   },
   components: {

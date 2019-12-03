@@ -5,7 +5,8 @@
     class="mt-8"
     label="New Comment"
     append-outer-icon="mdi-send"
-    @click:append-outer="log"
+    @click:append-outer="addComment"
+    @change="addComment"
   ></v-text-field>
 </template>
 
@@ -17,9 +18,30 @@ export default {
       newMessage: ''
     }
   },
+  props: {
+    postId: {
+      type: Number,
+      default: 0
+    }
+  },
   methods: {
-    log () {
-      console.log(this.newMessage)
+    async addComment () {
+      if (this.newMessage.length > 0) {
+        await this.$axios.post(`api/posts/${this.postId}/comments`, {
+          comment: {
+            text: this.newMessage,
+            authorId: this.user.uid,
+            authorName: this.user.displayName
+          }
+        })
+        this.newMessage = ''
+        this.$emit('commentAdded')
+      }
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.getters.getUser
     }
   }
 }
