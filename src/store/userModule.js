@@ -11,36 +11,28 @@ const userModule = {
     errorMsg: ''
   },
   getters: {
-    getIsLoggedIn (state) {
-      return state.isLoggedIn
-    },
-    getUser (state) {
-      return state.user
-    },
-    getError (state) {
-      return { error: state.error, msg: state.errorMsg }
-    }
+    getIsLoggedIn: state => state.isLoggedIn,
+    getUser: state => state.user,
+    getError: state => ({ error: state.error, msg: state.errorMsg })
   },
   mutations: {
-    logginIn (state) {
+    logginIn: state => {
       state.isLoggedIn = true
       router.push('/')
     },
-    logginOut (state) {
+    logginOut: state => {
       state.isLoggedIn = false
       state.user = null
     },
-    setUser (state, payload) {
-      state.user = payload
-    },
-    setError (state, payload) {
+    setUser: (state, payload) => { state.user = payload },
+    setError: (state, payload) => {
       state.error = payload.error
       state.errorMsg = payload.errorMsg
     }
   },
   actions: {
-    async logIn (context, payload) {
-      context.dispatch('settingError', {
+    logIn: async ({ commit, dispatch }, payload) => {
+      dispatch('settingError', {
         error: false,
         errorMsg: ''
       })
@@ -48,56 +40,48 @@ const userModule = {
         if (payload.email && payload.password) {
           const user = await login(payload.email, payload.password)
           if (user) {
-            context.commit('setUser', user)
-            context.commit('logginIn')
-            context.dispatch('fetchPosts')
+            commit('setUser', user)
+            commit('logginIn')
+            dispatch('fetchPosts')
           } else {
-            context.dispatch('settingError', {
+            dispatch('settingError', {
               error: true,
               errorMsg: 'Wrong Credentials'
             })
           }
         } else {
-          context.commit('setUser', payload)
-          context.commit('logginIn')
-          context.dispatch('fetchPosts')
+          commit('setUser', payload)
+          commit('logginIn')
+          dispatch('fetchPosts')
         }
       } catch (error) {
         console.log(error)
       }
     },
-    logOut (context) {
-      context.commit('logginOut')
-    },
-    async signUp (context, payload) {
-      context.dispatch('settingError', {
+    logOut: context => context.commit('logginOut'),
+    signUp: async ({ dispatch }, payload) => {
+      dispatch('settingError', {
         error: false,
         errorMsg: ''
       })
       const newUser = await register(payload)
-      if (newUser) {
-        context.dispatch('logIn', newUser)
-      } else {
-        context.dispatch('settingError', {
+      newUser
+        ? dispatch('logIn', newUser)
+        : dispatch('settingError', {
           error: true,
           errorMsg: 'Error with registration'
         })
-      }
     },
-    async signUpWithGoogle (context) {
+    signUpWithGoogle: async ({ dispatch }) => {
       const newUser = await registerWithGoogle()
-      if (newUser) {
-        context.dispatch('logIn', newUser)
-      } else {
-        context.dispatch('settingError', {
+      newUser
+        ? dispatch('logIn', newUser)
+        : dispatch('settingError', {
           error: true,
           errorMsg: 'Error with Google Registration'
         })
-      }
     },
-    settingError (context, payload) {
-      context.commit('setError', payload)
-    }
+    settingError: ({ commit }, payload) => commit('setError', payload)
   }
 }
 
