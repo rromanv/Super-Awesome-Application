@@ -1,8 +1,9 @@
 <template>
 <v-container>
   <v-row align="center" justify="end">
+    <PostCommentLike :postId="postId" @likeAdded="$emit('likeAdded')" @dislikeAdded="$emit('dislikeAdded')"/>
     <PostComment v-for="comment in comments" :key="comment.id" :comment="comment"/>
-    <PostCommentAdd />
+    <PostCommentAdd :postId="postId" @commentAdded="$emit('commentAdded')"/>
   </v-row>
 </v-container>
 </template>
@@ -10,42 +11,24 @@
 <script>
 import PostComment from './PostComment'
 import PostCommentAdd from './PostCommentAdd'
+import PostCommentLike from './PostCommentLike'
 
 export default {
   name: 'PostComments',
-  data () {
-    return {
-      comments: [
-        {
-          id: 0,
-          text: 'first commentfirst commentfirst commentfirst commentfirst commentfirst comment',
-          author: 'John Smith',
-          type: 'normal'
-        },
-        {
-          id: 2,
-          text: 'Second',
-          author: 'John Smith',
-          type: 'normal'
-        },
-        {
-          id: 3,
-          text: 'Other one',
-          author: 'John Smith',
-          type: 'normal'
-        },
-        {
-          id: 4,
-          text: 'The chosen One',
-          author: 'Me',
-          type: 'special'
-        }
-      ]
+  props: {
+    postId: {
+      type: Number,
+      default: 0
+    },
+    comments: {
+      type: Array,
+      default: () => []
     }
   },
   components: {
     PostComment,
-    PostCommentAdd
+    PostCommentAdd,
+    PostCommentLike
   }
 }
 </script>

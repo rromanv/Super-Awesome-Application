@@ -46,12 +46,24 @@ export default {
     addEmoji (emoji) {
       this.textToPublish = this.textToPublish.concat(emoji.native)
     },
-    publish () {
+    async publish () {
       if (this.$refs.publishForm.validate()) {
-        console.log(this.textToPublish)
+        await this.$store.dispatch('addPost', {
+          post: {
+            text: this.textToPublish,
+            authorId: this.user.uid,
+            authorName: this.user.displayName,
+            authorPhoto: this.user.photoURL
+          }
+        })
         this.$refs.publishForm.reset()
         this.textToPublish = ''
       }
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.getters.getUser
     }
   }
 }
